@@ -1,0 +1,37 @@
+I followed this tutorial:
+    Spring Boot Observability Uncovered: Enabling & Using the Observation API
+        https://www.youtube.com/watch?v=exRkiVLyPpc
+
+    The #1 Spring Boot Starter you should include in every single application
+            https://www.youtube.com/watch?v=4OVe0MWgZ4k
+
+How to start the application ?
+    1. Make sure Docker is running
+    2. Run main from Application class
+    3. go to http://localhost:8080/ and see Hello World
+    4. and http://localhost:8080/api/posts ...where you will need to login with "dan" and "password" (see SecurityConfig)
+    to see 100 posts retrieved from an online service...
+
+We added spring-boot-starter-actuator for Observability of various endpoints/ app metrics etc
+Docker compose file compose.yaml is used to start a Zipkin container, which is a webapp where one can see various logs created
+by the app.
+
+In application.properties file there is a setting "management.endpoints.web.exposure.include=*" ...here you can specify only a
+subset of the exposed information...As you can see this is now configured to explose all...but you can expose only health and beans
+for example like this : "management.endpoints.web.exposure.include=health,beans"
+This "management.endpoint.health.show-details=always" shows the health information all the time. In production one would want some of these
+endpoints to require logins.
+
+If you visit http://localhost:8080/actuator you can see all kinds of URL exposed by the actuator dependency of the app.
+If you visit http://localhost:8080/actuator/health you can see the status of the application...and which app is running
+Next if you visit http://localhost:8080/actuator/info you will see info about the app
+Next if you visit http://localhost:8080/actuator/beans you can see all beans in the app.
+Next if you visit http://localhost:8080/actuator/metrics/ you can see all the metrics collected by the app.
+Next if you visit http://localhost:8080/actuator/metrics/http.server.requests you can further see details about the metrics
+collected during https requests.
+or if you visit http://localhost:8080/actuator/metrics/spring.security.authentications you see how many users are authenticated
+
+if you visit http://localhost:8080/actuator/randomEndpoint you will a custom endpoint RandomEndpoint
+
+If you visit http://localhost:9411/zipkin/ you can see the dashboard of the zipkin webapp.
+If you press the button "RUN QUERY" you can see a list of all the requests made.
